@@ -12,12 +12,16 @@
   # You can import other NixOS modules here
   imports = [
     inputs.home-manager.nixosModules.home-manager
+    #inputs.nixvim
     # If you want to use modules your own flake exports (from modules/nixos):
-    # outputs.nixosModules.example
+    outputs.nixosModules.bootloader
+    outputs.nixosModules.pipewire
+    outputs.nixosModules.steam
 
     # Or modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
+    #inputs.nixvim
 
     # You can also split up your configuration and import pieces of it here:
     # ./users.nix
@@ -75,10 +79,10 @@
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
 
-  # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/nvme0n1";
-  boot.loader.grub.useOSProber = true;
+  ## Bootloader.
+  #boot.loader.grub.enable = true;
+  #boot.loader.grub.device = "/dev/nvme0n1";
+  #boot.loader.grub.useOSProber = true;
 
   networking.hostName = "skogix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -174,9 +178,9 @@ hardware.nvidia = {
   };
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "se";
-    xkbVariant = "us_dvorak";
+    variant = "us_dvorak";
   };
 
   # Configure console keymap
@@ -219,19 +223,18 @@ hardware.nvidia = {
     extraSpecialArgs = { inherit inputs outputs; };
     users = {
       # Import your home-manager configuration
-      skogix = import ../home-manager/default.nix;
+      skogix = import ../home-manager/home.nix;
     };
   };
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  	waybar
-	#Hyprland
-  gcc.cc.libgcc
+  #waybar
 	firefox
 	kitty
-	wofi
+  gcc13
+	#wofi
 	networkmanagerapplet
 	swww # for wallpapers
 	xdg-desktop-portal-gtk
@@ -247,6 +250,16 @@ hardware.nvidia = {
   ];
 
 
+  #programs.nixvim = {
+  #  plugins.lightline.enable = true;
+  #  extraPlugins = with pkgs.vimPlugins; [
+  #    vim-nix
+  #    gruvbox
+  #  ];
+  #  colorscheme = "gruvbox";
+  #};
+
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -260,6 +273,14 @@ hardware.nvidia = {
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
+  
+  boot.supportedFilesystems = [ "ntfs" ];
+
+  fileSystems."/run/media/skogix/warez" =
+    { device = "/dev/sda1";
+      fsType = "ntfs-3g"; 
+      options = [ "rw" "uid=1000"];
+    };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

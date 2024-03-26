@@ -1,29 +1,10 @@
-{inputs, username, ...}: {
-  imports =
-    [(import ./skogix)]
-#    ++ [(import ./hyprland)]        # pixel art editor
-#    ++ [(import ./aseprite)]        # pixel art editor
-#    ++ [(import ./audacious)]       # music player
-#    ++ [(import ./bat)]
-#    ++ [(import ./btop)]
-#    ++ [(import ./cava)]
-#    ++ [(import ./discord)]         # discord with catppuccin theme
-#    ++ [(import ./floorp)]          # firefox based browser
-#    ++ [(import ./gaming)]
-#    ++ [(import ./git)]
-#    ++ [(import ./gtk)]
-#    ++ [(import ./nvim)]
-#    ++ [(import ./kitty)]
-#    ++ [(import ./mako)]            # notification deamon
-#    ++ [(import ./micro)]           # nano replacement
-#    ++ [(import ./package)]
-#    ++ [(import ./rider)]           # C# JetBrain editor
-#    ++ [(import ./scripts)]         # personal scripts
-#    ++ [(import ./starship)]
-#    ++ [(import ./swaylock)]
-#    ++ [(import ./unity)]
-#    ++ [(import ./vscodium)]
-#    ++ [(import ./waybar)]
-#    #++ [(import ./wofi)]
-#    #++ [(import ./zsh)];
+# Add your reusable home-manager modules to this directory, on their own file (https://nixos.wiki/wiki/Module).
+# These should be stuff you would like to share with others, not your personal configurations.
+{
+  # List your module files here
+  #zsh = import ./zsh/default.nix;
+  discord = import ./discord/default.nix;
+  kitty = import ./kitty/default.nix;
+  wofi = import ./wofi/default.nix;
+  
 }
