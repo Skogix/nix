@@ -47,17 +47,33 @@
     };
   };
 
-  # TODO: Set your username
   home = {
     username = "skogix";
     homeDirectory = "/home/skogix";
   };
 
+  #wayland.windowManager.hyprland.enable = true;
+  wayland.windowManager.sway = {
+    enable = true;
+    config = rec {
+      modifier = "Mod4";
+      # Use kitty as default terminal
+      terminal = "kitty"; 
+      startup = [
+        # Launch Firefox on start
+        {command = "firefox";}
+      ];
+    };
+  };
+
   # Add stuff for your user as you see fit:
   programs.neovim.enable = true;
+  #programs.neovim.coc.enable = true;
+
   home.packages = with pkgs; [ 
     steam 
     spotify
+    kitty
     ];
 
   # Enable home-manager and git

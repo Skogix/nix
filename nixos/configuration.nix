@@ -8,6 +8,7 @@
   pkgs,
   ...
 }: {
+  system.nixos.label = "skogix";
   # You can import other NixOS modules here
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -70,6 +71,8 @@
     experimental-features = "nix-command flakes";
     # Deduplicate and optimize nix store
     auto-optimise-store = true;
+    substituters = ["https://hyprland.cachix.org"];
+    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
 
   # Bootloader.
@@ -105,12 +108,70 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
+services.xserver.videoDrivers = [ "nvidia" ]; # If you are using a hybrid laptop add its iGPU manufacturer
+hardware.opengl = {  
+  enable = true;  
+  driSupport = true;  
+  driSupport32Bit = true;  
+};
+
+
+
+hardware.nvidia = {
+
+    # Modesetting is required.
+    modesetting.enable = true;
+
+    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+    # Enable this if you have graphical corruption issues or application crashes after waking
+    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
+    # of just the bare essentials.
+    powerManagement.enable = false;
+
+    # Fine-grained power management. Turns off GPU when not in use.
+    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+    powerManagement.finegrained = false;
+
+    # Use the NVidia open source kernel module (not to be confused with the
+    # independent third-party "nouveau" open source driver).
+    # Support is limited to the Turing and later architectures. Full list of 
+    # supported GPUs is at: 
+    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+    # Only available from driver 515.43.04+
+    # Currently alpha-quality/buggy, so false is currently the recommended setting.
+    open = false;
+
+    # Enable the Nvidia settings menu,
+	# accessible via `nvidia-settings`.
+    nvidiaSettings = true;
+
+    # Optionally, you may need to select the appropriate driver version for your specific GPU.
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   # Enable the X11 windowing system.
+};
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  programs.sway.enable = true;
+  security.polkit.enable = true;
+	#services.xserver.displayManager.sddm.enable = true; #This line enables sddm
+  #programs.hyprland.enable = true;
+
+#	programs.hyprland = { # we use this instead of putting it in systemPackages/users  
+#	  enable = true;  
+#	  xwayland.enable = true;  
+#	  nvidiaPatches = true; # ONLY use this line if you have an nvidia card  
+#	};
+#
+	environment.sessionVariables.NIXOS_OZONE_WL = "1"; # This variable fixes electron apps in wayland
+	environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = "1"; # This variable fixes electron apps in wayland
+	
+  programs.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  };
 
   # Configure keymap in X11
   services.xserver = {
@@ -158,15 +219,34 @@
     extraSpecialArgs = { inherit inputs outputs; };
     users = {
       # Import your home-manager configuration
-      skogix = import ../home-manager/home.nix;
+      skogix = import ../home-manager/default.nix;
     };
   };
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+  	waybar
+	#Hyprland
+  gcc.cc.libgcc
+	firefox
+	kitty
+	wofi
+	networkmanagerapplet
+	swww # for wallpapers
+	xdg-desktop-portal-gtk
+	xdg-desktop-portal-hyprland
+	xwayland
+	meson
+	wayland-protocols
+	wayland-utils
+	wl-clipboard
+	wlroots
+	pavucontrol
+  wget
   ];
+
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -189,4 +269,5 @@
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.05";
+  	
 }
