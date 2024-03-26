@@ -10,6 +10,7 @@
 }: {
   # You can import other NixOS modules here
   imports = [
+    inputs.home-manager.nixosModules.home-manager
     # If you want to use modules your own flake exports (from modules/nixos):
     # outputs.nixosModules.example
 
@@ -153,7 +154,13 @@
     #  thunderbird
     ];
   };
-
+  home-manager = {
+    extraSpecialArgs = { inherit inputs outputs; };
+    users = {
+      # Import your home-manager configuration
+      skogix = import ../home-manager/home.nix;
+    };
+  };
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
