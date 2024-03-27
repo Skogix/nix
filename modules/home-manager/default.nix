@@ -18,4 +18,5 @@
   swaylock = import ./swaylock/default.nix;
   waybar = import ./waybar/default.nix;
   zsh = import ./zsh/default.nix;
+  package = import ./package/default.nix;
 }

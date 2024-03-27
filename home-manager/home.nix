@@ -21,12 +21,13 @@
     #outputs.homeManagerModules.gaming 
     outputs.homeManagerModules.git 
     outputs.homeManagerModules.gtk 
-    #outputs.homeManagerModules.hyprland 
+    outputs.homeManagerModules.hyprland 
     outputs.homeManagerModules.mako 
     #outputs.homeManagerModules.starship 
     outputs.homeManagerModules.swaylock 
     outputs.homeManagerModules.waybar 
     outputs.homeManagerModules.zsh 
+    outputs.homeManagerModules.package 
 
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default

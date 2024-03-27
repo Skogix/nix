@@ -1,7 +1,7 @@
 { inputs, pkgs, ... }: 
 {
   home.packages = (with pkgs; [
-    bitwise                           # cli tool for bit / hex manipulation
+    #bitwise                           # cli tool for bit / hex manipulation
     eza                               # ls replacement
     entr                              # perform action when file change
     fd                                # find replacement
@@ -12,12 +12,12 @@
     libreoffice
     nitch                             # systhem fetch util
     nix-prefetch-github
-    pipx                              # Install Python applications in isolated environments
-    prismlauncher                     # minecraft launcher
+    #pipx                              # Install Python applications in isolated environments
+    #prismlauncher                     # minecraft launcher
     ripgrep                           # grep replacement
-    soundwireserver                   # pass audio to android phone
+    #soundwireserver                   # pass audio to android phone
     todo                              # cli todo list
-    toipe                             # typing test in the terminal
+    #toipe                             # typing test in the terminal
     cinnamon.nemo-with-extensions     # file manager
     yazi                              # terminal file manager
     youtube-dl

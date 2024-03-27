@@ -16,6 +16,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-gaming.url = "github:fufexan/nix-gaming";
+    alejandra.url = "github:kamadorueda/alejandra/3.0.0";
 
     catppuccin-bat = {
       url = "github:catppuccin/bat";
