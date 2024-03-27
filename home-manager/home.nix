@@ -16,17 +16,17 @@
     outputs.homeManagerModules.kitty
     outputs.homeManagerModules.wofi
     outputs.homeManagerModules.bat 
-    #outputs.homeManagerModules.btop 
-    #outputs.homeManagerModules.cava 
+    outputs.homeManagerModules.btop 
+    outputs.homeManagerModules.cava 
     #outputs.homeManagerModules.gaming 
-    #outputs.homeManagerModules.git 
+    outputs.homeManagerModules.git 
     outputs.homeManagerModules.gtk 
     #outputs.homeManagerModules.hyprland 
     outputs.homeManagerModules.mako 
     #outputs.homeManagerModules.starship 
     outputs.homeManagerModules.swaylock 
     outputs.homeManagerModules.waybar 
-    #outputs.homeManagerModules.zsh 
+    outputs.homeManagerModules.zsh 
 
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
@@ -87,9 +87,9 @@
   #programs.neovim.coc.enable = true;
 
   home.packages = with pkgs; [ 
-    steam 
+    #steam 
     spotify
-    kitty
+    #kitty
     wofi
     nnn
     nerdfonts
